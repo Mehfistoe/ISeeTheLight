@@ -22,14 +22,3 @@ with open('words.csv', 'w') as csvfile:
         last_words = tree.xpath('//*[@id="body"]/p[position()>5]/text()')
         # print(last_words)
         writer.writerow(last_words)
-
-
-alchemy_language = AlchemyLanguageV1(api_key='430993732be62f8ebf38081520c5898ff48f2b5c')
-
-with open('words.csv', 'r') as file:
-    reader = csv.reader(file)
-    print(json.dumps(
-        alchemy_language.emotion(
-            text=reader,
-        ),
-        indent=2))
