@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
 import csv
-#import pandas as pd
+import pandas as pd
 from bs4 import BeautifulSoup
 import requests
+import re
 #import json
 
 URL = 'http://www.tdcj.state.tx.us/death_row/dr_executed_offenders.html'
@@ -33,9 +34,25 @@ def scrape_table():
                 else:
                     row_content.append(i.text)
             writer.writerow(row_content)
+    return
+
+def get_last_statements():
+	BASE_URL = 'http://www.tdcj.state.tx.us/death_row/'
+	inmmate_df = pd.read_csv('TX_Inmate_data.csv')
+	# TODO: use BeautifulSoup to got to the webpage with the final statement and scrape it off
+	last_statements = np.array()
+	for links in inmmate_df.iterrows():
+		page = requests.get(BASE_URL + inmmate_df['Last Statement'])
+		soup = BeautifulSoup(page.content, "html.parser")
+		key_phrase = re.compile(r'Last Statement')
+		for sibling in soup.find('p', text=key_phrase).next_siblings:
+			np.append(last_statements, sibling)
+	return
+
+
 
 def main():
-    scrape_table()
+    # scrape_table()
 
 if __name__ == "__main__":
     main()
