@@ -1,6 +1,6 @@
 Execution,Offender Information,Last Statement,Last Name,First Name,TDCJ Number,Age,Date,Race,County
-545,dr_info/cardenasruben.html,/death_row/dr_info/cardenasrubenlast.html,Cardenas,Ruben,999275,47,11/08/2017,Hispanic,Hidalgo
-544,/death_row/dr_info/pruettrobert.html,/death_row/dr_info/pruettrobertlast.html,Pruett,Robert,999411,38,10/12/2017,White,Bee
+545,dr_info/cardenasruben.html,dr_info/cardenasrubenlast.html,Cardenas,Ruben,999275,47,11/08/2017,Hispanic,Hidalgo
+544,/death_row/dr_info/pruettrobert.html,dr_info/pruettrobertlast.html,Pruett,Robert,999411,38,10/12/2017,White,Bee
 543,dr_info/preyortaichin.html,dr_info/preyortaichinlast.html,Preyor,Taichin,999494,46,7/27/2017,Black,Bexar
 542,dr_info/bigbyjames.jpg,dr_info/bigbyjameslast.html,Bigby,James,997,61,3/14/2017,White,Tarrant
 541,dr_info/ruizroland.jpg,dr_info/ruizrolandolast.html,Ruiz,Rolando,999145,44,3/07/2017,Hispanic,Bexar

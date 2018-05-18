@@ -5,6 +5,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import re
+import numpy as np
 #import json
 
 URL = 'http://www.tdcj.state.tx.us/death_row/dr_executed_offenders.html'
@@ -37,22 +38,48 @@ def scrape_table():
     return
 
 def get_last_statements():
-	BASE_URL = 'http://www.tdcj.state.tx.us/death_row/'
-	inmmate_df = pd.read_csv('TX_Inmate_data.csv')
-	# TODO: use BeautifulSoup to got to the webpage with the final statement and scrape it off
-	last_statements = np.array()
-	for links in inmmate_df.iterrows():
-		page = requests.get(BASE_URL + inmmate_df['Last Statement'])
-		soup = BeautifulSoup(page.content, "html.parser")
-		key_phrase = re.compile(r'Last Statement')
-		for sibling in soup.find('p', text=key_phrase).next_siblings:
-			np.append(last_statements, sibling)
-	return
+    BASE_URL = 'http://www.tdcj.state.tx.us/death_row/'
+    inmate_df = pd.read_csv('TX_Inmate_data.csv')
+    # TODO: use BeautifulSoup to got to the webpage with the final statement and scrape it off
+    # TODO: handle TypeErrors for missing entries
+    last_statements = [] # column to add to the dataframe
+    paragraphs = [] # STACK to hold each paragraph in the Last Statements page
+        
+    for i, row in inmate_df.iterrows():
+        # Go to the page with the Last Statement on it
+        page = requests.get(BASE_URL + row['Last Statement'])
+        soup = BeautifulSoup(page.content, "html.parser")
+
+        # locates the phrase "Last Statement" to start scanning from
+        key_phrase = re.compile(r'Last Statement')
+        try:
+            # Loop to find eveything to follow the "Last Statement" key phrase
+            for sibling in soup.find('p', text=key_phrase).next_siblings:
+                #print(sibling)
+                paragraphs.append(str(sibling))
+        except TypeError as e:
+            print(e)
+            paragraphs.append("Awkward Entry?")
+            continue
+        except NameError as n:
+            print(n)
+            paragraphs.append("Awkward Entry?")
+            continue
+        except AttributeError as a:
+            print(a)
+            paragraphs.append("Fuck off")
+            continue
+            
+        last_statement_entry = "\n".join(paragraphs)
+        np.append(last_statements, last_statement_entry)
+
+    return last_statements
 
 
 
 def main():
     # scrape_table()
+    print(get_last_statements())
 
 if __name__ == "__main__":
     main()
